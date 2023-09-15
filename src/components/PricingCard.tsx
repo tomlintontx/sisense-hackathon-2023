@@ -24,7 +24,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ flightTime, airline, duration
           <img src="/united-blue.png" width="80px" height="80px" />
         </Grid>
         
-        {/* Descriptive Text Column */}
+        {/* Flight time and carrier Text Column */}
         <Grid item style={{flexGrow: 2}}>
           <Typography variant="body1" align="center">
             {flightTime}

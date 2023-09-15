@@ -1,4 +1,4 @@
-import PricingCard, { PricingCardProps } from './PricingCard';  // Assuming PricingCard is in the same directory
+import PricingCard, { PricingCardProps } from './PricingCard'; 
 
 export interface PricingCardsListProps {
   cardsData: PricingCardProps[];  // An array of objects based on PricingCardProps
