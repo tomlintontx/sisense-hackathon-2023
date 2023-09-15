@@ -3,6 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Recursive Recursion - Sisense Hackathon 2023",
+  "repository": "github:tomlintontx/sisense-hackathon-2023",
+  "contributors": [
+    "Tom Linton <thomas.linton@sisense.com>",
+    "Ashton Walden <ashton.walden@sisense.com>",
+    "Chase Walden <chase.walden@sisense.com>"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
