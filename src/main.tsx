@@ -7,8 +7,8 @@ import { PricingCardProps } from './components/PricingCard.tsx';
 
 const data: PricingCardProps[] = [
   {
-    topText:"7:05AM - 9:00AM", 
-    bottomText:"United",
+    flightTime:"7:05AM - 9:00AM", 
+    airline:"United",
     duration:"1 hr 55 mins", 
     flightType:"non-stop", 
     price:436,
@@ -16,8 +16,8 @@ const data: PricingCardProps[] = [
     bottomFlightType:''
   },
   {
-    topText:"7:05AM - 9:00AM", 
-    bottomText:"United",
+    flightTime:"7:05AM - 9:00AM", 
+    airline:"United",
     duration:"1 hr 55 mins", 
     flightType:"non-stop", 
     price:436,
@@ -25,8 +25,8 @@ const data: PricingCardProps[] = [
     bottomFlightType:''
   },
   {
-    topText:"7:05AM - 9:00AM", 
-    bottomText:"United",
+    flightTime:"7:05AM - 9:00AM", 
+    airline:"United",
     duration:"1 hr 55 mins", 
     flightType:"non-stop", 
     price:436,

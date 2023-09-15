@@ -10,8 +10,8 @@ const PricingCardsList: React.FC<PricingCardsListProps> = ({ cardsData }) => {
       {cardsData.map((card, index) => (
         <PricingCard 
           key={index} 
-          topText={card.topText}
-          bottomText={card.bottomText}
+          flightTime={card.flightTime}
+          airline={card.airline}
           duration={card.duration}
           flightType={card.flightType}
           price={card.price}
