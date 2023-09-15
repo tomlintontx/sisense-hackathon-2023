@@ -13,7 +13,7 @@ const data: PricingCardProps[] = [
     flightType:"non-stop", 
     price:436,
     bottomDuration:'SAT-DEN',
-    bottomFlightType:''
+    bottomFlightType:'UA2367'
   },
   {
     flightTime:"7:05AM - 9:00AM", 
@@ -22,7 +22,7 @@ const data: PricingCardProps[] = [
     flightType:"non-stop", 
     price:436,
     bottomDuration:'SAT-DEN',
-    bottomFlightType:''
+    bottomFlightType:'UA2367'
   },
   {
     flightTime:"7:05AM - 9:00AM", 
@@ -31,7 +31,7 @@ const data: PricingCardProps[] = [
     flightType:"non-stop", 
     price:436,
     bottomDuration:'SAT-DEN',
-    bottomFlightType:''
+    bottomFlightType:'UA2367'
   }
 ]
 

@@ -49,7 +49,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ flightTime, airline, duration
           <Typography variant="body1" align="center">
             {flightType}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" align='center'>
             {bottomFlightType}
           </Typography>
         </Grid>
