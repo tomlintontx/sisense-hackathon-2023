@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-interface PricingCardProps {
-  topText: string;
-  bottomText: string;
+export interface PricingCardProps {
+  flightTime: string;
+  airline: string;
   duration: string;
   flightType: string;
   price: string | number;
@@ -14,9 +14,9 @@ interface PricingCardProps {
   bottomFlightType: string;
 }
 
-const PricingCard: React.FC<PricingCardProps> = ({ topText, bottomText, duration, flightType, price, bottomDuration, bottomFlightType }) => {
+const PricingCard: React.FC<PricingCardProps> = ({ flightTime, airline, duration, flightType, price, bottomDuration, bottomFlightType }) => {
   return (
-    <Card sx={{ minWidth: 800, backgroundColor: 'white', padding: '16px' }}>
+    <Card sx={{ minWidth: 800, backgroundColor: 'white', padding: '16px', mt: 2 }}>
       <Grid container spacing={2} alignItems="center">
         
         {/* Image Column */}
@@ -24,13 +24,13 @@ const PricingCard: React.FC<PricingCardProps> = ({ topText, bottomText, duration
           <img src="/united-blue.png" width="80px" height="80px" />
         </Grid>
         
-        {/* Descriptive Text Column */}
+        {/* Flight time and carrier Text Column */}
         <Grid item style={{flexGrow: 2}}>
           <Typography variant="body1" align="center">
-            {topText}
+            {flightTime}
           </Typography>
           <Typography variant="body2" color="text.secondary" align="center">
-            {bottomText}
+            {airline}
           </Typography>
         </Grid>
         
