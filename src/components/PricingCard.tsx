@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-interface PricingCardProps {
+export interface PricingCardProps {
   topText: string;
   bottomText: string;
   duration: string;
@@ -16,7 +16,7 @@ interface PricingCardProps {
 
 const PricingCard: React.FC<PricingCardProps> = ({ topText, bottomText, duration, flightType, price, bottomDuration, bottomFlightType }) => {
   return (
-    <Card sx={{ minWidth: 800, backgroundColor: 'white', padding: '16px' }}>
+    <Card sx={{ minWidth: 800, backgroundColor: 'white', padding: '16px', mt: 2 }}>
       <Grid container spacing={2} alignItems="center">
         
         {/* Image Column */}
