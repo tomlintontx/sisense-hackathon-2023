@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.14.9",
+    "@mui/material": "^5.14.9",
     "@mui/x-data-grid": "^6.11.2",
     "@sisense/sdk-data": "^0.8.0",
     "@sisense/sdk-ui": "^0.8.0",
