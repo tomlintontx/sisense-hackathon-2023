@@ -25,3 +25,5 @@ dist-ssr
 
 # For now...
 bun.lockb 
+.npmrc
+package-lock.json
