@@ -51,6 +51,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
       }, {});
   });
 
+  console.log(formattedData)
+
   return (
     <Card>
       <CardContent>
@@ -63,7 +65,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
               <Avatar src={formattedData[0].img_url} alt={formattedData[0].text} style={{ width: 60, height: 60, marginRight: 15 }} />
               <Box>
                 <Typography variant="h5" component="div" color="white">
-                  {formattedData[0].text}
+                  {formattedData[0].Name}
                 </Typography>
                 <Typography variant="subtitle1" color="white">
                   {formattedData[0].Position}
