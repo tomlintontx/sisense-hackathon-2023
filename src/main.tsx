@@ -10,18 +10,6 @@ import { measures } from '@sisense/sdk-data';
 const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY
 const sisenseUrl = import.meta.env.VITE_SISENSE_URL
 
-const playerData: Player = {
-  name: 'Dak Prescott',
-  position: 'Quarterback',
-  imageUrl: 'https://static.www.nfl.com/image/private/t_player_profile_landscape/f_auto/league/knx0jxponzfkusnyvjkn',
-  stats: [
-    { label: 'Passing Yards', value: '4633' },
-    { label: 'Touchdowns', value: '40' },
-    { label: 'Interceptions', value: '12' },
-    // ... Add more stats as needed
-  ],
-};
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <SisenseContextProvider
