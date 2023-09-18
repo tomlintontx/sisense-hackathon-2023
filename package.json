@@ -20,13 +20,16 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.9",
     "@mui/x-data-grid": "^6.11.2",
-    "@sisense/sdk-data": "^0.8.0",
-    "@sisense/sdk-ui": "^0.8.0",
+    "@sisense/sdk-data": "^0.9.0",
+    "@sisense/sdk-ui": "^0.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@sisense/sdk-cli": "^0.8.0",
+    "@types/chrome": "^0.0.246",
+    "@types/node": "^20.6.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
