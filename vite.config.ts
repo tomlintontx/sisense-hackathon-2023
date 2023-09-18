@@ -15,15 +15,15 @@ export default defineConfig(async () => {
           action: {
             default_popup: 'index.html',
           },
-          // content_security_policy: {
-
-          // }
           content_scripts: [
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
               js: ['src/content/main.ts']
             }
-          ]
+          ],
+          background: {
+            service_worker: 'src/background/worker.ts'
+          },
         }
       }),
     ],
