@@ -53,7 +53,7 @@ const container = (() => {
     return container
 })();
 
-while (walker.nextNode()) {
+for (let i = 0; walker.nextNode() && i < 10_000; i++) {
     const node = walker.currentNode;
 
     const content = node.textContent;
