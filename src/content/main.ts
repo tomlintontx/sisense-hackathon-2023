@@ -1,15 +1,6 @@
-import browser from "webextension-polyfill";
-
 import { isElementNode, isTextNode } from "../util/dom";
 
-const port = await browser.runtime.connect()
-
-const resp = await port.postMessage({ type: "hello" });
-
-console.log({ resp })
-// const port = await chrome.runtime.connect({ name: 'sisense' });
-
-// port.
+// const resp = chrome.runtime.sendMessage({type: "request-type", ...})
 
 const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
     acceptNode(node) {

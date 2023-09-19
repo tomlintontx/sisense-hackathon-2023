@@ -30,38 +30,20 @@ async function main() {
         highlights: [],
     })
 
-    // const ac = new AbortController();
-    // ac.signal.
-
     const result = await resultPromise;
 
     console.log({ result })
-    // const fields = await queryClient.getDataSourceFields('nfl')
-
-    // console.log({ fields })
-
-
-
-    // console.log({ ComposeSdkRestClient, ComposeSdkQueryClient })
-    // const auth = ComposeSdkRestClient.getAuthenticator(
-    //     /* url */ import.meta.env.VITE_SISENSE_URL,
-    //     /* username */ undefined,
-    //     /* password */ undefined,
-    //     /* token */ import.meta.env.VITE_SISENSE_TOKEN,
-    //     /* wat */ undefined,
-    //     /* ssoEnabled */ undefined,
-    // )
-
-    // console.log({ auth })
-    // console.log(createClientApplication)
-    // const app = await createClientApplication({
-    //     url: import.meta.env.VITE_SISENSE_URL,
-    //     token: import.meta.env.VITE_SISENSE_TOKEN,
-    // })
 }
+
 main();
 
-
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//     switch (message.type) {
+//         case 'request-type': 
+//             sendResponse({ type: 'response-type', ... })
+//         ...
+//     }
+// })
 
 
 
