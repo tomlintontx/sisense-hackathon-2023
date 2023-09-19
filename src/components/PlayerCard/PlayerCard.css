@@ -1,0 +1,43 @@
+.cardContainer {
+  perspective: 1000px;
+}
+
+.card {
+  width: 100%;  
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card.flipped {
+  transform: rotateX(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;  
+  height: 100%;
+}
+
+.cardFront {
+  transform: rotateX(0deg);
+  visibility: visible;
+}
+
+.cardBack {
+  transform: rotateX(180deg);
+  visibility: hidden;  /* This will hide the card back by default */
+}
+
+.card.flipped .cardFront {
+  visibility: hidden;
+}
+
+.card.flipped .cardBack {
+  visibility: visible;
+}

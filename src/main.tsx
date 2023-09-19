@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Player } from './components/PlayerCard.tsx';
-import PlayerCard from './components/PlayerCard.tsx';
+import { Player } from './components/PlayerCard/PlayerCard.tsx';
+import PlayerCard from './components/PlayerCard/PlayerCard.tsx';
 import { ExecuteQuery, SisenseContextProvider } from '@sisense/sdk-ui';
 import * as DM from './nfl_data.ts'
 import { filters } from '@sisense/sdk-data';
@@ -32,8 +32,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           measures.sum(DM.player_stats.PassingTouchdowns)
         ]}
         filters={[
-          filters.contains(DM.player_stats.Name,'Kirk Cousins'),
-          filters.equals(DM.player_stats.Season,'2023')
+          filters.contains(DM.player_stats.Name,'Tom Brady'),
+          filters.equals(DM.player_stats.Season,'2022')
         ]}
         >
           {
