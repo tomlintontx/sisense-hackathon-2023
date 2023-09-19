@@ -135,11 +135,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
               chartType={'bar'}
               dataOptions={{
                 category: [DM.player_stats.Name],
-                value: [measures.sum(DM.player_stats.FantasyPoints)],
+                value: [measures.sum(DM.player_stats.FantasyPoints, 'Fantasy Points')],
                 breakBy: [],
               }}
               filters={[
                 filters.equals(DM.player_stats.Season, '2023'),
+                filters.equals(DM.player_stats.Position, 'QB'),
                 filters.topRanking(DM.player_stats.Name, measures.sum(DM.player_stats.FantasyPoints), 8)
               ]}
               styleOptions={{
