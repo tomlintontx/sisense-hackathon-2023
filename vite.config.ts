@@ -12,9 +12,12 @@ export default defineConfig(async () => {
           manifest_version: 3,
           name: 'Hackathon 2023',
           version: '1.0.0',
-          action: {
-            default_popup: 'index.html',
-          },
+          permissions: [
+            "scripting"
+          ],
+          // action: {
+          //   default_popup: 'index.html',
+          // },
           content_scripts: [
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
@@ -22,7 +25,7 @@ export default defineConfig(async () => {
             }
           ],
           background: {
-            service_worker: 'src/background/worker.ts'
+            service_worker: 'src/background/main.ts'
           },
         }
       }),
