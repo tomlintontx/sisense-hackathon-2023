@@ -44,14 +44,3 @@ main();
 //         ...
 //     }
 // })
-
-
-
-// chrome.runtime.onConnect.addListener((port) => {
-
-
-//     // port.
-
-//     // { action: 'get-player-names', asdfasdf}
-
-// })
