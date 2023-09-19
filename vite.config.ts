@@ -12,16 +12,16 @@ export default defineConfig(async () => {
           manifest_version: 3,
           name: 'Hackathon 2023',
           version: '1.0.0',
-          permissions: [
-            "scripting"
-          ],
+          // permissions: [
+          //   // "scripting"
+          // ],
           // action: {
           //   default_popup: 'index.html',
           // },
           content_scripts: [
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
-              js: ['src/content/main.ts']
+              js: ['src/content/main.ts'],
             }
           ],
           background: {

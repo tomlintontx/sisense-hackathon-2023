@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Player } from './components/PlayerCard/PlayerCard.tsx';
 import PlayerCard from './components/PlayerCard/PlayerCard.tsx';
@@ -44,6 +44,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           }
           }
       </ExecuteQuery>
-    </SisenseContextProvider>
+    </SisenseContextProvider>  
   </React.StrictMode>,
 )
