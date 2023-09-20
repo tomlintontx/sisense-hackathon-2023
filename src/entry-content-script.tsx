@@ -72,7 +72,7 @@ async function highlightMatches(root: Node) {
     }
 }
 
-const CARD_HEIGHT = 350;
+const CARD_HEIGHT = 375;
 const CARD_WIDTH = 600;
 
 function clamp(value: number, min: number, max: number): number {

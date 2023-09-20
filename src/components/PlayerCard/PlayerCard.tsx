@@ -222,28 +222,22 @@ function PlayerCard({ player }: PlayerCardProps) {
   console.log(currentMeasure)
 
   return (
-    <Box css={cardContainer}>
+    <Box css={cardContainer} >
       <Card
+        variant="outlined"
         className={`card ${isFlipped ? 'flipped' : ''}`}
         onClick={() => setIsFlipped(!isFlipped)}
-        sx={{
-          boxShadow: 4
-        }}
-      /* style={{ height: '100vh' }} */
+        sx={{ boxShadow: 4 }}
       >
         {/* Front of the Card */}
-        <CardContent className="cardFront"
-          sx={{
-            padding: 0
-          }}
-        >
+        <CardContent className="cardFront" sx={{p: 0, '&:last-child': {p: 0}}}>
           <Box position="relative" height={70} marginBottom={2} paddingTop={1}
-            style={{ background: `linear-gradient(to right, ${"#" + formattedData.color}, ${"#" + formattedData.alternateColor})` }}>
+            sx={{ background: `linear-gradient(to right, ${"#" + formattedData.color}, ${"#" + formattedData.alternateColor})` }}>
 
             {/* Left side content */}
             <Box display="flex" alignItems="center" height="100%" justifyContent="space-between">
               <Box display="flex" alignItems="center">
-                <Avatar src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData.players_id + ".png"} alt={formattedData.fullName} style={{ width: 60, height: 60, marginRight: 15 }} />
+                <Avatar src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData.players_id + ".png"} alt={formattedData.fullName} sx={{ width: 60, height: 60 , mx: 2 }} />
                 <Box>
                   <Typography variant="h5" component="div" color="white">
                     {formattedData.fullName}
@@ -257,7 +251,7 @@ function PlayerCard({ player }: PlayerCardProps) {
 
             {/* Floating secondary avatar */}
             <Avatar src={formattedData.logo_url} alt="Secondary Avatar"
-              style={{
+              sx={{
                 width: 100,
                 height: 100,
                 position: 'absolute',
@@ -281,7 +275,7 @@ function PlayerCard({ player }: PlayerCardProps) {
         </CardContent>
 
         {/* Back of the Card */}
-        <CardContent className="cardBack" style={{ display: 'flex' }}>
+        <CardContent className="cardBack" sx={{p: 0, '&:last-child': {p: 0}, display:'flex'}}>
           <img
             src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData.players_id + ".png"}
             alt="Background Description"
@@ -292,8 +286,8 @@ function PlayerCard({ player }: PlayerCardProps) {
               zIndex: -1 // Ensures the image stays behind the content
             }}
           />
-          <Box style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography variant="h5" component="div" color="black" style={{ marginBottom: '16px' }}>
+          <Box sx={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="h5" component="div" color="black" sx={{ my: 2 }}>
               Active {formattedData.position_abbr} Career Leaders
             </Typography>
             <ThemeProvider
