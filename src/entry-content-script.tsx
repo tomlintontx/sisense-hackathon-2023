@@ -1,12 +1,13 @@
 // import './content/render.tsx'
 
+import ReactDOM from "react-dom/client";
 
 import { isElementNode, isTextNode } from "./util/dom";
+import { useEffect, useState } from "react";
 
 const NEEDLE = 'Biden';
 
 let card: HTMLElement | undefined;
-
 
 function highlightMatches(root: Node) {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
@@ -47,10 +48,7 @@ function highlightMatches(root: Node) {
             const mark = document.createElement('hackathon-match');
 
             mark.addEventListener('mouseover', handleMouseOver)
-            mark.addEventListener('mouseout', () => {
-                // console.log("mouseout", mark)
-                if (card) card.remove();
-            })
+            mark.addEventListener('mouseout', unMount)
 
             range.surroundContents(mark);
             // yield mark
@@ -65,6 +63,12 @@ function clamp(value: number, min: number, max: number): number {
     return Math.max(min, Math.min(max, value));
 }
 
+function unMount() {
+    if (card) {
+        card.remove();
+        card = undefined;
+    }
+}
 
 function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     console.log("mouseover", this, event)
@@ -77,7 +81,7 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     const viewWidth = document.documentElement.clientWidth;
     const viewHeight = document.documentElement.clientHeight;
 
-    let offsetX = viewWidth / 4;
+    let offsetX = 50 + (CARD_WIDTH + boundingRect.width) / 2;
 
     if (centerX > viewWidth / 2) {
         offsetX = -offsetX;
@@ -89,11 +93,7 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
 
     console.log({ centerX, centerY, viewWidth, viewHeight, offsetX, cardTop, cardLeft })
 
-    if (card) {
-        card.remove();
-    }
-
-    card = document.createElement('div');
+    if (!card) card = document.createElement('div');
     card.style.position = 'fixed';
     card.style.top = `${cardTop}px`;
     card.style.left = `${cardLeft}px`;
@@ -101,6 +101,23 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     card.style.height = `${CARD_HEIGHT}px`;
     card.style.backgroundColor = 'green';
     document.body.appendChild(card);
+
+
+    ReactDOM.createRoot(card).render(<Dummy />)
+}
+
+function Dummy() {
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCount(x => x+1)
+        })
+
+        return () => clearInterval(timer)
+    }, [])
+
+    return <div style={{width: "100%", height: "100%", backgroundColor: "red"}}>{count}</div>
 }
 
 highlightMatches(document.body)

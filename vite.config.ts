@@ -23,7 +23,7 @@ export default defineConfig(({ command, mode }) => {
           content_scripts: [
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
-              js: ['src/entry-content-script.ts'],
+              js: ['src/entry-content-script.tsx'],
               css: ['src/content/style.css'],
             }
           ],

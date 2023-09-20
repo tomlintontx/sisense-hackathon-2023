@@ -19,19 +19,19 @@ async function main() {
 
     console.log('logged in successful', loginSuccessful);
 
-    const { resultPromise, cancel } = queryClient.executeQuery({
-        dataSource: 'nfl',
-        attributes: [
-            DM.player_stats.Name
-        ],
-        measures: [],
-        filters: [],
-        highlights: [],
-    })
+    // const { resultPromise, cancel } = queryClient.executeQuery({
+    //     dataSource: 'nfl',
+    //     attributes: [
+    //          DM.player_stats.Name
+    //     ],
+    //     measures: [],
+    //     filters: [],
+    //     highlights: [],
+    // })
 
-    const result = await resultPromise;
+    // const result = await resultPromise;
 
-    console.log({ result })
+    // console.log({ result })
 }
 
 main();
