@@ -1,7 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import ReactDOM from 'react-dom/client'
-import Page from '../components/Page'
+// import Page from '../components/Page'
 
 const ROOT_ID = 'sisense-hackathon-2023'
 function getOrCreateRootEl() {
@@ -15,16 +15,16 @@ function getOrCreateRootEl() {
     // return document.createElement('div')
 }
 
-const root = ReactDOM.createRoot(document.createElement('div')/* getOrCreateRootEl() */)
-root.render(
-    <React.StrictMode>
-        <Page />
-    </React.StrictMode>
-)
+// const root = ReactDOM.createRoot(document.createElement('div')/* getOrCreateRootEl() */)
+// root.render(
+//     <React.StrictMode>
+//         <Page />
+//     </React.StrictMode>
+// )
 
-const mo = new MutationObserver((mutations) => {
+// const mo = new MutationObserver((mutations) => {
 
-})
+// })
 
 // console.log({chrome})
 

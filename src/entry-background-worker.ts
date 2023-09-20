@@ -3,6 +3,10 @@ import { DimensionalQueryClient, type QueryDescription } from "@sisense/sdk-quer
 
 import * as DM from './nfl_data'
 
+import Trie from "./util/trie";
+
+const searchTrie = new Trie();
+
 async function main() {
     const url = import.meta.env.VITE_SISENSE_URL;
     const token = import.meta.env.VITE_SISENSE_TOKEN;
@@ -19,27 +23,38 @@ async function main() {
 
     console.log('logged in successful', loginSuccessful);
 
-    // const { resultPromise, cancel } = queryClient.executeQuery({
-    //     dataSource: 'nfl',
-    //     attributes: [
-    //          DM.player_stats.Name
-    //     ],
-    //     measures: [],
-    //     filters: [],
-    //     highlights: [],
-    // })
+    const { resultPromise, cancel } = queryClient.executeQuery({
+        dataSource: 'nfl',
+        attributes: [
+            DM.players.fullName,
+        ],
+        measures: [],
+        filters: [],
+        highlights: [],
+    })
 
-    // const result = await resultPromise;
+    const result = await resultPromise;
 
-    // console.log({ result })
+    const names = result.rows.map(row => row[0].data);
+
+    console.log("Compiling Trie");
+    console.time("Compiling Trie")
+    searchTrie.insertMany(names);
+    console.timeEnd("Compiling Trie")
+    console.log("Trie Depth", searchTrie.maxDepth());
 }
 
 main();
 
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     switch (message.type) {
-//         case 'request-type': 
-//             sendResponse({ type: 'response-type', ... })
-//         ...
-//     }
-// })
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log(message);
+    switch (message.type) {
+        case 'find-matches':
+            const matches = searchTrie.searchInText(message.payload);
+            /* if (matches.length > 0)  */
+            sendResponse({ type: 'found-matches', payload: matches });
+            break;
+        default:
+            console.log("unknown message type", message)
+    }
+})

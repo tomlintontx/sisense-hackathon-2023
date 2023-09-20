@@ -8,12 +8,13 @@ import { SisenseContextProvider } from "@sisense/sdk-ui";
 import { StrictMode } from "react";
 
 import PlayerCard from "./components/PlayerCard/PlayerCard";
+import { type TrieMatch } from "./util/trie";
 
 const NEEDLE = 'Biden';
 
 let card: HTMLElement | undefined;
 
-function highlightMatches(root: Node) {
+async function highlightMatches(root: Node) {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
         acceptNode(node) {
             if (isTextNode(node))
@@ -34,29 +35,51 @@ function highlightMatches(root: Node) {
         }
     });
 
-    for (let i = 0; walker.nextNode() && i < 10000; i++) {
-        const node = walker.currentNode as Text;
+    for (let i = 0; walker.nextNode() && i < 10_000; i++) {
 
+        const node = walker.currentNode as Text;
+        
         if (!node.textContent) continue;
 
-        let start: number;
-        let end: number | undefined;
+        const resp = await chrome.runtime.sendMessage({ type: "find-matches", payload: node.textContent });
+        
+        if (!resp) continue;
 
-        while ((start = node.textContent.indexOf(NEEDLE, end)) >= 0) {
-            end = start + NEEDLE.length;
+        switch (resp.type) {
+            case 'found-matches': {
+                const matches = resp.payload as TrieMatch[];
 
-            const range = new Range();
-            range.setStart(node, start);
-            range.setEnd(node, end);
+                for (const [start, end, text] of matches) {
+                    const range = new Range();
+                    range.setStart(node, start);
+                    range.setEnd(node, end);
 
-            const mark = document.createElement('hackathon-match');
-
-            mark.addEventListener('mouseover', handleMouseOver)
-            // mark.addEventListener('mouseout', unMount)
-
-            range.surroundContents(mark);
-            // yield mark
+                    const mark = document.createElement('hackathon-match');
+                    mark.dataset.text = text;
+                    mark.addEventListener('mouseover', handleMouseOver)
+                    range.surroundContents(mark);
+                }
+                break
+            }
         }
+
+        // let start: number;
+        // let end: number | undefined;
+
+        // while ((start = node.textContent.indexOf(NEEDLE, end)) >= 0) {
+        //     end = start + NEEDLE.length;
+
+        //     const range = new Range();
+        //     range.setStart(node, start);
+        //     range.setEnd(node, end);
+
+        //     const mark = document.createElement('hackathon-match');
+
+        //     // mark.addEventListener('mouseout', unMount)
+
+        //     range.surroundContents(mark);
+        //     // yield mark
+        // }
     }
 }
 
@@ -79,6 +102,7 @@ const sisenseUrl = import.meta.env.VITE_SISENSE_URL
 
 let current: HTMLElement | undefined;
 function handleMouseOver(this: HTMLElement, event: MouseEvent) {
+    console.log(this.innerText)
     if (current === this) return; // already mounted
 
     current = this;
@@ -122,7 +146,7 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
             url= {sisenseUrl}
             token= {sisenseApiKey}
             >
-            <PlayerCard player='Patrick Mahomes' />
+            <PlayerCard player={'Patrick Mahomes'} />
             </SisenseContextProvider>  
         </StrictMode>
     )
