@@ -66,12 +66,21 @@ export default class Trie {
         return current.phrase
     }
 
-    searchInText(text: string): TrieMatch[] {
+    searchInText(pagetext: string): TrieMatch[] {
+
+        const text = pagetext.normalize('NFKC')
+
+        if (text.length !== pagetext.length) {
+            console.log("Normalization changed the length of the text")
+            return []
+        }
+
         let matches = []
 
         // Iterate over every word in the text, and run searchExact on it. Then store the start index, end index, and phrase in an array.
         // Return the array of matches.
 
+        // looper: {
         for (let i = 0; i < text.length; i++) {
             let current = this.root;
             let j = i;
@@ -80,9 +89,12 @@ export default class Trie {
                 j++;
                 if (current.phrase) {
                     matches.push([i, j, current.phrase] as [number, number, string]);
+                    // try doing just a single match
+                    // break looper;
                 }
             }
         }
+        // }
 
         return matches;
     }

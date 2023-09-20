@@ -32,14 +32,16 @@ async function highlightMatches(root: Node) {
         }
     });
 
-    for (let i = 0; walker.nextNode() && i < 1000; i++) {
+    for (let i = 0; walker.nextNode() && i < 100_000; i++) {
 
         const node = walker.currentNode as Text;
         
-        if (!node.textContent) continue;
+        const content = node.textContent;
+        if (!content) continue;
 
-        const resp = await chrome.runtime.sendMessage({ type: "find-matches", payload: node.textContent });
-        
+        const resp = await chrome.runtime.sendMessage({ type: "find-matches", payload: content });
+
+        // if (content !== node.textContent) continue;
         if (!resp) continue;
         
         switch (resp.type) {
@@ -47,21 +49,21 @@ async function highlightMatches(root: Node) {
                 const matches = resp.payload as TrieMatch[];
                 
                 if (matches.length) console.log( {matches})
-                for (const [start, end, text] of matches) {
-                    try {
+                try {
+                    for (const [start, end, text] of matches.reverse()) {
                         const range = new Range();
                         range.setStart(node, start);
                         range.setEnd(node, end);
                         
                         const mark = document.createElement('hackathon-match');
+                        mark.dataset.text = text;
                         range.surroundContents(mark);
 
-                        mark.dataset.text = text;
-                        mark.addEventListener('mouseover', handleMouseOver, { capture: true })
+                        // mark.addEventListener('mouseover', handleMouseOver, { capture: true })
 
-                    } catch (err) {
-                        console.warn("Problem wrapping text", err);
                     }
+                } catch (err) {
+                    console.warn("Problem wrapping text", err, node, matches);
                 }
                 break
             }
@@ -87,22 +89,27 @@ const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY ?? import.meta.env.VI
 const sisenseUrl = import.meta.env.VITE_SISENSE_URL
 
 let current: HTMLElement | undefined;
-function handleMouseOver(this: HTMLElement, event: MouseEvent) {
-    console.log("mouse over")
-    if (current === this) return; // already mounted
-    current = this;
+
+document.addEventListener('mouseover', handleMouseOver, { capture: true });
+
+function handleMouseOver(event: MouseEvent) {
+    const el = event.target as HTMLElement | null;
+    if (el?.tagName !== 'HACKATHON-MATCH') return;
+    console.log("mouse over", el)
+    if (current === el) return; // already mounted
+    current = el;
 
     unMount();
 
-    const name = this.dataset.text;
+    const name = el.dataset.text;
     if (!name) {
-        console.warn("no name found", this)
+        console.warn("no name found", el)
         return;
     }
     
-    console.log("mouseover", this, event)
+    console.log("mouseover", el, event)
     
-    const boundingRect = this.getBoundingClientRect();
+    const boundingRect = el.getBoundingClientRect();
 
     const centerX = boundingRect.x + boundingRect.width / 2;
     const centerY = boundingRect.y + boundingRect.height / 2;
@@ -115,7 +122,6 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     if (centerX > viewWidth / 2) {
         offsetX = -offsetX;
     }
-
 
     const cardTop = clamp(centerY - CARD_HEIGHT / 2, 0, viewHeight - CARD_HEIGHT);
     const cardLeft = clamp(centerX + offsetX - CARD_WIDTH / 2, 0, viewWidth - CARD_WIDTH);
@@ -144,22 +150,9 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     )
 }
 
-function Dummy() {
-    const [count, setCount] = useState(0);
-    
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCount(x => x+1)
-        })
-
-        return () => clearInterval(timer)
-    }, [])
-
-    return <div style={{width: "100%", height: "100%", backgroundColor: "red"}}>{count}</div>
-}
-
 highlightMatches(document.body)
 
 // setInterval(() => {
+//     console.log("Rescanning for matches")
 //     highlightMatches(document.body)
 // }, 5000)

@@ -47,6 +47,7 @@ async function main() {
 main();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.trace("message received", message)
     // console.log(message);
     switch (message.type) {
         case 'find-matches':
