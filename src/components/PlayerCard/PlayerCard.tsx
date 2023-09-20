@@ -55,6 +55,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
     }, {});
   });
 
+  formattedData[0].sumpassingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumpassingYards)
+  formattedData[0].sumrushingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumrushingYards)
+
   return (
     <Box className="cardContainer">
       <Card
@@ -65,25 +68,25 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
         {/* Front of the Card */}
         <CardContent className="cardFront">
           <Box position="relative" height={60} marginBottom={2}
-            style={{ background: `linear-gradient(to right, ${formattedData[0].color}, ${formattedData[0].color2})` }}>
+            style={{ background: `linear-gradient(to right, ${"#" + formattedData[0].color}, ${"#" + formattedData[0].alternateColor})` }}>
 
             {/* Left side content */}
             <Box display="flex" alignItems="center" height="100%" justifyContent="space-between">
               <Box display="flex" alignItems="center">
-                <Avatar src={formattedData[0].img_url} alt={formattedData[0].text} style={{ width: 60, height: 60, marginRight: 15 }} />
+                <Avatar src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData[0].players_id + ".png"} alt={formattedData[0].fullName} style={{ width: 60, height: 60, marginRight: 15 }} />
                 <Box>
                   <Typography variant="h5" component="div" color="white">
-                    {formattedData[0].Name}
+                    {formattedData[0].fullName}
                   </Typography>
                   <Typography variant="subtitle1" color="white">
-                    {formattedData[0].Position}
+                    {formattedData[0].position_abbr}
                   </Typography>
                 </Box>
               </Box>
             </Box>
 
             {/* Floating secondary avatar */}
-            <Avatar src={formattedData[0].team_logo} alt="Secondary Avatar"
+            <Avatar src={formattedData[0].logo_url} alt="Secondary Avatar"
               style={{
                 width: 80,
                 height: 80,
@@ -100,15 +103,15 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <TableBody>
               <TableRow>
                 <TableCell>Passing Yards</TableCell>
-                <TableCell>{formattedData[0].sumPassingYards}</TableCell>
+                <TableCell>{formattedData[0].sumpassingYards}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Passing TDs</TableCell>
-                <TableCell>{formattedData[0].sumPassingTouchdowns}</TableCell>
+                <TableCell>{formattedData[0].sumpassingTouchdowns}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Fantasy Points</TableCell>
-                <TableCell>{Math.round(formattedData[0].sumFantasyPoints)}</TableCell>
+                <TableCell>Rushing Yards</TableCell>
+                <TableCell>{formattedData[0].sumrushingYards}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -117,7 +120,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
         {/* Back of the Card */}
         <CardContent className="cardBack" style={{ display: 'flex' }}>
           <img
-            src={formattedData[0].img_url}
+            src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData[0].players_id + ".png"}
             alt="Background Description"
             style={{
               height: '100%',
@@ -128,20 +131,19 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
           />
           <Box style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Typography variant="h5" component="div" color="black" style={{ marginBottom: '16px' }}>
-              Top 10 QBs 2023
+              Career Stats Active QBs
             </Typography>
             <Chart
               dataSet={DM.DataSource}
               chartType={'bar'}
               dataOptions={{
-                category: [DM.player_stats.Name],
-                value: [measures.sum(DM.player_stats.FantasyPoints, 'Fantasy Points')],
+                category: [DM.players.fullName],
+                value: [measures.sum(DM.PlayerStats.passingTouchdowns, 'Passing TDs')],
                 breakBy: [],
               }}
               filters={[
-                filters.equals(DM.player_stats.Season, '2023'),
-                filters.equals(DM.player_stats.Position, 'QB'),
-                filters.topRanking(DM.player_stats.Name, measures.sum(DM.player_stats.FantasyPoints), 8)
+                filters.equals(DM.players.position_abbr, 'QB'),
+                filters.topRanking(DM.players.fullName, measures.sum(DM.PlayerStats.passingTouchdowns), 5)
               ]}
               styleOptions={{
                 legend: {

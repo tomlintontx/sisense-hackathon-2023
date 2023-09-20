@@ -19,21 +19,20 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ExecuteQuery
         dataSource={DM.DataSource}
         dimensions={[
-          DM.player_stats.Name,
-          DM.player_images.img_url,
-          DM.teamcolors.color,
-          DM.teamcolors.color2,
-          DM.logos.team_logo,
-          DM.player_stats.Position
+          DM.players.fullName,
+          DM.teams.color,
+          DM.teams.alternateColor,
+          DM.teams.logo_url,
+          DM.players.position_abbr,
+          DM.players.players_id
         ]}
         measures={[
-          measures.sum(DM.player_stats.FantasyPoints),
-          measures.sum(DM.player_stats.PassingYards),
-          measures.sum(DM.player_stats.PassingTouchdowns)
+          measures.sum(DM.PlayerStats.passingTouchdowns),
+          measures.sum(DM.PlayerStats.passingYards),
+          measures.sum(DM.PlayerStats.rushingYards)
         ]}
         filters={[
-          filters.contains(DM.player_stats.Name,'Tom Brady'),
-          filters.equals(DM.player_stats.Season,'2022')
+          filters.contains(DM.players.fullName,'Josh Allen'),
         ]}
         >
           {
