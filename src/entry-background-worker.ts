@@ -47,11 +47,11 @@ async function main() {
 main();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log(message);
+    // console.log(message);
     switch (message.type) {
         case 'find-matches':
             const matches = searchTrie.searchInText(message.payload);
-            /* if (matches.length > 0)  */
+            if (matches.length > 0) console.log({ matches })
             sendResponse({ type: 'found-matches', payload: matches });
             break;
         default:

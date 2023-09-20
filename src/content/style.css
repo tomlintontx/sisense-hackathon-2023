@@ -1,11 +1,13 @@
 hackathon-match {
     background-color: rgba(255, 203, 5, 0.5);
-    border: 1px solid transparent;
+    /* border: 1px solid transparent; */
     border-radius: 2px;
     transition:
         border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
 hackathon-match:hover {
-    border-color: currentColor;
+    /* border-color: currentColor; */
+    background-color: rgba(255, 203, 5, 0.8);
+
 }

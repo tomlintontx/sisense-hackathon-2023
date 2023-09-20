@@ -97,9 +97,10 @@ function PlayerCard({  player   }: PlayerCardProps) {
         ]
   })
 
-  if (!data) return (<pre>Loading...</pre>);
+  // if (!data) return (<pre>Loading...</pre>);
+  if (!data) return null;
 
-  const { columns, rows } = data ?? { columns: [], rows: [] };
+  const { columns, rows } = data;
 
   let [formattedData] = rows.map(row => 
     Object.fromEntries(row.map((cell, index) => 
@@ -107,7 +108,7 @@ function PlayerCard({  player   }: PlayerCardProps) {
     ))
   );
 
-  // useDebugValue(formattedData)
+  if (!formattedData) return null;
 
   console.log(formattedData)
   // debugger
