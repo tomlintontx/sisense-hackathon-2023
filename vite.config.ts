@@ -24,7 +24,10 @@ export default defineConfig(({ command, mode }) => {
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
               js: ['src/entry-content-script.tsx'],
-              css: ['src/content/style.css'],
+              css: [
+                'src/content/style.css',
+                'src/components/PlayerCard/PlayerCard.css',
+              ],
             }
           ],
           background: {

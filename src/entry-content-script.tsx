@@ -4,6 +4,10 @@ import ReactDOM from "react-dom/client";
 
 import { isElementNode, isTextNode } from "./util/dom";
 import { useEffect, useState } from "react";
+import { SisenseContextProvider } from "@sisense/sdk-ui";
+import { StrictMode } from "react";
+
+import PlayerCard from "./components/PlayerCard/PlayerCard";
 
 const NEEDLE = 'Biden';
 
@@ -48,7 +52,7 @@ function highlightMatches(root: Node) {
             const mark = document.createElement('hackathon-match');
 
             mark.addEventListener('mouseover', handleMouseOver)
-            mark.addEventListener('mouseout', unMount)
+            // mark.addEventListener('mouseout', unMount)
 
             range.surroundContents(mark);
             // yield mark
@@ -56,8 +60,8 @@ function highlightMatches(root: Node) {
     }
 }
 
-const CARD_HEIGHT = 200;
-const CARD_WIDTH = 300;
+const CARD_HEIGHT = 350;
+const CARD_WIDTH = 500;
 
 function clamp(value: number, min: number, max: number): number {
     return Math.max(min, Math.min(max, value));
@@ -70,7 +74,17 @@ function unMount() {
     }
 }
 
+const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY ?? import.meta.env.VITE_SISENSE_TOKEN
+const sisenseUrl = import.meta.env.VITE_SISENSE_URL
+
+let current: HTMLElement | undefined;
 function handleMouseOver(this: HTMLElement, event: MouseEvent) {
+    if (current === this) return; // already mounted
+
+    current = this;
+
+    unMount();
+
     console.log("mouseover", this, event)
 
     const boundingRect = this.getBoundingClientRect();
@@ -102,8 +116,16 @@ function handleMouseOver(this: HTMLElement, event: MouseEvent) {
     card.style.backgroundColor = 'green';
     document.body.appendChild(card);
 
-
-    ReactDOM.createRoot(card).render(<Dummy />)
+    ReactDOM.createRoot(card).render(
+        <StrictMode>
+            <SisenseContextProvider
+            url= {sisenseUrl}
+            token= {sisenseApiKey}
+            >
+            <PlayerCard player='Patrick Mahomes' />
+            </SisenseContextProvider>  
+        </StrictMode>
+    )
 }
 
 function Dummy() {

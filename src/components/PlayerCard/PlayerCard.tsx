@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useDebugValue, useEffect, useMemo, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   Box
 } from '@mui/material';
 import './PlayerCard.css'
-import { Chart } from '@sisense/sdk-ui';
+import { Chart, useExecuteQuery } from '@sisense/sdk-ui';
 import * as DM from '../../nfl_data.ts'
 import { measures, filters } from '@sisense/sdk-data';
 
@@ -41,7 +41,7 @@ export interface Player {
 }
 
 interface PlayerCardProps {
-  player: QueryData;
+  player: string;
 }
 
 function capitalizeWords(input: string): string {
@@ -60,53 +60,98 @@ const positionToStats: Record<string, string[]> = {
   'CB': ['solo Tackles', 'sacks', 'interceptions', 'fumbled Forced']
 };
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
+function PlayerCard({  player   }: PlayerCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const { columns, rows } = player;
 
-  let formattedData = rows.map(row => {
-    return row.reduce((acc, cell, index) => {
-      acc[columns[index].name.replace(/ +/g, "")] = cell.text;
-      return acc;
-    }, {});
-  });
+  const { data } = useExecuteQuery({
+    dataSource: DM.DataSource,
+        dimensions:[
+          DM.players.fullName,
+          DM.teams.color,
+          DM.teams.alternateColor,
+          DM.teams.logo_url,
+          DM.players.position_abbr,
+          DM.players.players_id
+        ],
+        measures: [
+          measures.sum(DM.PlayerStats.passingTouchdowns),
+          measures.sum(DM.PlayerStats.passingYards),
+          measures.sum(DM.PlayerStats.rushingYards),
+          measures.sum(DM.PlayerStats.QBRating),
+          measures.sum(DM.PlayerStats.sacks),
+          measures.sum(DM.PlayerStats.soloTackles),
+          measures.sum(DM.PlayerStats.interceptions),
+          measures.sum(DM.PlayerStats.fieldGoalsMade50),
+          measures.sum(DM.PlayerStats.fieldGoalsMade),
+          measures.sum(DM.PlayerStats.rushingTouchdowns),
+          measures.sum(DM.PlayerStats.receivingYards),
+          measures.sum(DM.PlayerStats.receivingTouchdowns),
+          measures.sum(DM.PlayerStats.receptions),
+          measures.sum(DM.PlayerStats.fieldGoalPct),
+          measures.sum(DM.PlayerStats.punts),
+          measures.sum(DM.PlayerStats.puntsInside10Pct),
+          measures.sum(DM.PlayerStats.fumblesForced),
+        ],
+        filters:[
+          filters.contains(DM.players.fullName, player ?? 'Cooper Kupp'),
+        ]
+  })
 
-  formattedData[0].sumpassingYards = new Intl.NumberFormat('en-us',{}).format(formattedData[0].sumpassingYards)
-  formattedData[0].sumrushingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumrushingYards)
-  formattedData[0].sumsoloTackles = new Intl.NumberFormat('en-us').format(formattedData[0].sumsoloTackes)
-  formattedData[0].sumreceivingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumreceivingYards)
-  formattedData[0].sumpuntsInside10Pct = formattedData[0].sumpuntsInside10Pct + "%"
-  formattedData[0].sumfieldGoalPct = formattedData[0].sumfieldGoalPct + "%"
+  if (!data) return (<pre>Loading...</pre>);
+
+  const { columns, rows } = data ?? { columns: [], rows: [] };
+
+  let [formattedData] = rows.map(row => 
+    Object.fromEntries(row.map((cell, index) => 
+       [columns[index].name.replace(/ +/g, ""), cell.text]
+    ))
+  );
+
+  // useDebugValue(formattedData)
+
+  console.log(formattedData)
+  // debugger
+  // useEffect(() => {
+  // }, [formattedData])
+
+  const intlFmt = new Intl.NumberFormat('en-us')
+
+  formattedData.sumpassingYards = intlFmt.format(Number(formattedData.sumpassingYards))
+  formattedData.sumrushingYards = intlFmt.format(Number(formattedData.sumrushingYards))
+  formattedData.sumsoloTackles = intlFmt.format(Number(formattedData.sumsoloTackes))
+  formattedData.sumreceivingYards = intlFmt.format(Number(formattedData.sumreceivingYards))
+  formattedData.sumpuntsInside10Pct = formattedData.sumpuntsInside10Pct + "%"
+  formattedData.sumfieldGoalPct = formattedData.sumfieldGoalPct + "%"
 
   return (
     <Box className="cardContainer">
       <Card
         className={`card ${isFlipped ? 'flipped' : ''}`}
         onClick={() => setIsFlipped(!isFlipped)}
-        style={{ height: '100vh' }}
+        /* style={{ height: '100vh' }} */
       >
         {/* Front of the Card */}
         <CardContent className="cardFront">
           <Box position="relative" height={60} marginBottom={2}
-            style={{ background: `linear-gradient(to right, ${"#" + formattedData[0].color}, ${"#" + formattedData[0].alternateColor})` }}>
+            style={{ background: `linear-gradient(to right, ${"#" + formattedData.color}, ${"#" + formattedData.alternateColor})` }}>
 
             {/* Left side content */}
             <Box display="flex" alignItems="center" height="100%" justifyContent="space-between">
               <Box display="flex" alignItems="center">
-                <Avatar src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData[0].players_id + ".png"} alt={formattedData[0].fullName} style={{ width: 60, height: 60, marginRight: 15 }} />
+                <Avatar src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData.players_id + ".png"} alt={formattedData.fullName} style={{ width: 60, height: 60, marginRight: 15 }} />
                 <Box>
                   <Typography variant="h5" component="div" color="white">
-                    {formattedData[0].fullName}
+                    {formattedData.fullName}
                   </Typography>
                   <Typography variant="subtitle1" color="white">
-                    {formattedData[0].position_abbr}
+                    {formattedData.position_abbr}
                   </Typography>
                 </Box>
               </Box>
             </Box>
 
             {/* Floating secondary avatar */}
-            <Avatar src={formattedData[0].logo_url} alt="Secondary Avatar"
+            <Avatar src={formattedData.logo_url} alt="Secondary Avatar"
               style={{
                 width: 80,
                 height: 80,
@@ -121,10 +166,10 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
 
           <Table size="small">
             <TableBody>
-              {positionToStats[formattedData[0].position_abbr].map((stat) => (
+              {positionToStats[formattedData.position_abbr!].map((stat) => (
                 <TableRow key={stat}>
                   <TableCell>{capitalizeWords(stat)}</TableCell>
-                  <TableCell>{formattedData[0][`sum${stat.replace(' ', '')}`]}</TableCell>
+                  <TableCell>{formattedData[`sum${stat.replace(' ', '')}`]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -134,7 +179,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
         {/* Back of the Card */}
         <CardContent className="cardBack" style={{ display: 'flex' }}>
           <img
-            src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData[0].players_id + ".png"}
+            src={"https://a.espncdn.com/i/headshots/nfl/players/full/" + formattedData.players_id + ".png"}
             alt="Background Description"
             style={{
               height: '100%',

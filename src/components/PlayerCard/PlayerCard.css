@@ -1,9 +1,11 @@
 .cardContainer {
   perspective: 1000px;
+  height: 350px;
+  width: 500px;
 }
 
 .card {
-  width: 100%;  
+  width: 100%;
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.5s;
@@ -20,7 +22,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100%;  
+  width: 100%;
   height: 100%;
 }
 
@@ -31,7 +33,8 @@
 
 .cardBack {
   transform: rotateX(180deg);
-  visibility: hidden;  /* This will hide the card back by default */
+  visibility: hidden;
+  /* This will hide the card back by default */
 }
 
 .card.flipped .cardFront {
