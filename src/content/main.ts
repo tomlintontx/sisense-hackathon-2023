@@ -50,20 +50,53 @@ for (let i = 0; walker.nextNode() && i < 10_000; i++) {
     const content = node.textContent;
     if (!content) continue;
 
-    const needle = "Biden"
-    const idx = content.indexOf(needle);
-    if (idx === -1) continue;
+    const resp = chrome.runtime.sendMessage({ type: "find-matches", payload: content })
 
-    const range = document.createRange();
-    range.setStart(node, idx);
-    range.setEnd(node, idx + needle.length);
+    resp.then(resp => {
 
-    console.log("found", { node, content, idx, range }, range.toString())
+        if (!resp) return;
 
-    const highlightSpan = document.createElement("span");
-    highlightSpan.classList.add("hackathon-highlight");
+        for (const match of resp.payload) {
+            const [start, end, phrase] = match;
+            console.log("Found match", { start, end, phrase, content })
 
-    range.surroundContents(highlightSpan);
+            const range = document.createRange();
+            range.setStart(node, start);
+            range.setEnd(node, end + 1);
+
+            const highlightSpan = document.createElement("span");
+            highlightSpan.classList.add("hackathon-highlight");
+
+            range.surroundContents(highlightSpan);
+
+            for (const rect of range.getClientRects()) {
+                const div = document.createElement("div");
+                div.style.position = "absolute";
+                div.style.top = `${rect.top}px`;
+                div.style.left = `${rect.left}px`;
+                div.style.width = `${rect.width}px`;
+                div.style.height = `${rect.height}px`;
+                div.style.border = "1px solid red";
+
+                container.appendChild(div);
+            }
+        }
+    })
+
+    // const needle = "Biden"
+    // const idx = content.indexOf(needle);
+    // if (idx === -1) continue;
+
+    // const range = document.createRange();
+    // range.setStart(node, idx);
+    // range.setEnd(node, idx + needle.length);
+
+    // console.log("found", { node, content, idx, range }, range.toString())
+
+    // const highlightSpan = document.createElement("span");
+    // highlightSpan.classList.add("hackathon-highlight");
+
+    // range.surroundContents(highlightSpan);
 
     // for (const rect of range.getClientRects()) {
     //     const div = document.createElement("div");

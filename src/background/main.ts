@@ -3,6 +3,10 @@ import { DimensionalQueryClient, type QueryDescription } from "@sisense/sdk-quer
 
 import * as DM from '../nfl_data'
 
+import Trie from "./trie";
+
+const searchTrie = new Trie();
+
 async function main() {
 
     const url = import.meta.env.VITE_SISENSE_URL;
@@ -32,15 +36,26 @@ async function main() {
 
     const result = await resultPromise;
 
-    console.log({ result })
+    const names = result.rows.map(row => row[0].data);
+
+    console.log("Compiling Trie");
+    const start = Date.now();
+    searchTrie.insertMany(names);
+    const end = Date.now();
+    console.log("Compiled Trie in", end - start, "ms");
+    console.log("Trie Depth", searchTrie.maxDepth());
 }
 
 main();
 
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     switch (message.type) {
-//         case 'request-type': 
-//             sendResponse({ type: 'response-type', ... })
-//         ...
-//     }
-// })
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log(message);
+    switch (message.type) {
+        case 'find-matches':
+            const matches = searchTrie.searchInText(message.payload);
+            if (matches.length > 0) sendResponse({ type: 'found-matches', payload: matches });
+            break;
+        default:
+            console.log("unknown message type", message)
+    }
+})
