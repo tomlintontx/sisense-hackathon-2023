@@ -1,6 +1,6 @@
 // import './content/content.css'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import { Player } from './components/PlayerCard/PlayerCard.tsx';
 // import PlayerCard from './components/PlayerCard/PlayerCard.tsx';

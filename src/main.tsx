@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Player } from './components/PlayerCard/PlayerCard.tsx';
 import PlayerCard from './components/PlayerCard/PlayerCard.tsx';
-import { ExecuteQuery, SisenseContextProvider } from '@sisense/sdk-ui';
-import * as DM from './nfl_data.ts'
-import { filters } from '@sisense/sdk-data';
-import { measures } from '@sisense/sdk-data';
+import {  SisenseContextProvider } from '@sisense/sdk-ui';
 
 const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY ?? import.meta.env.VITE_SISENSE_TOKEN
 const sisenseUrl = import.meta.env.VITE_SISENSE_URL

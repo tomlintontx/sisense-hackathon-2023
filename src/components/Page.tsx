@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 import { isElementNode, isTextNode } from "../util/dom";
 

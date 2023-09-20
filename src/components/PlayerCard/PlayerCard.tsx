@@ -1,5 +1,5 @@
 
-import React, { useDebugValue, useEffect, useMemo, useState } from 'react';
+import  { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -67,24 +67,11 @@ width: 600px;
 
 `
 
-
 // Define your types
 interface Stat {
   label: string;
   value: string;
 }
-
-type Column = {
-  name: string;
-  type: string;
-}
-type Row = Line[]
-type Line = any
-
-type QueryData = {
-  columns: Column[];
-  rows: Row[];
-};
 
 export interface Player {
   name: string;

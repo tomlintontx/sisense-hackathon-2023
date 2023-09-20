@@ -1,5 +1,5 @@
 import { BearerAuthenticator, HttpClient } from "@sisense/sdk-rest-client";
-import { DimensionalQueryClient, type QueryDescription } from "@sisense/sdk-query-client";
+import { DimensionalQueryClient } from "@sisense/sdk-query-client";
 
 import * as DM from './nfl_data'
 
@@ -23,7 +23,7 @@ async function main() {
 
     console.log('logged in successful', loginSuccessful);
 
-    const { resultPromise, cancel } = queryClient.executeQuery({
+    const { resultPromise } = queryClient.executeQuery({
         dataSource: 'nfl',
         attributes: [
             DM.players.fullName,
@@ -46,7 +46,7 @@ async function main() {
 
 main();
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     console.trace("message received", message)
     // console.log(message);
     switch (message.type) {

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { StrictMode , useEffect, useState } from "react";
+import { StrictMode } from "react";
 import { SisenseContextProvider } from "@sisense/sdk-ui";
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
