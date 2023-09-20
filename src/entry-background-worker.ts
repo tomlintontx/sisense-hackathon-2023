@@ -9,7 +9,7 @@ const searchTrie = new Trie();
 
 async function main() {
     const url = import.meta.env.VITE_SISENSE_URL;
-    const token = import.meta.env.VITE_SISENSE_TOKEN;
+    const token = import.meta.env.VITE_SISENSE_API_KEY;
 
     const auth = new BearerAuthenticator(url, token);
 

@@ -86,7 +86,7 @@ function unMount() {
     }
 }
 
-const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY ?? import.meta.env.VITE_SISENSE_TOKEN
+const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY
 const sisenseUrl = import.meta.env.VITE_SISENSE_URL
 
 let current: HTMLElement | undefined;
