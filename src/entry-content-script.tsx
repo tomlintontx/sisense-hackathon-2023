@@ -79,17 +79,26 @@ function clamp(value: number, min: number, max: number): number {
     return Math.max(min, Math.min(max, value));
 }
 
-function unMount() {
-    if (card) {
-        card.remove();
-        card = undefined;
-    }
-}
+
 
 const sisenseApiKey = import.meta.env.VITE_SISENSE_API_KEY
 const sisenseUrl = import.meta.env.VITE_SISENSE_URL
 
 let current: HTMLElement | undefined;
+
+function unMount() {
+    if (card) {
+        card.remove();
+        card = undefined;
+        current = undefined;
+    }
+}
+
+document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape' && card) {
+        unMount();
+    }
+})
 
 document.addEventListener('mouseover', handleMouseOver, { capture: true });
 
