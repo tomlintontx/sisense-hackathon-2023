@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react'
 import webExtension from '@samrum/vite-plugin-web-extension'
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => {
+export default defineConfig(({ command, mode }) => {
+  console.log({ command, mode })
   return {
     plugins: [
       react(),
+      /* (command === 'build') &&  */
       webExtension({
         manifest: {
           manifest_version: 3,
@@ -21,11 +23,12 @@ export default defineConfig(async () => {
           content_scripts: [
             {
               matches: ["<all_urls>"], // TODO? only http(s)?
-              js: ['src/content/main.ts'],
+              js: ['src/entry-content-script.ts'],
+              css: ['src/content/style.css'],
             }
           ],
           background: {
-            service_worker: 'src/background/main.ts'
+            service_worker: 'src/entry-background-worker.ts'
           },
         }
       }),

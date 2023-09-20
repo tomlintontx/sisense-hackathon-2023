@@ -1,6 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import ReactDOM from 'react-dom/client'
+import Page from '../components/Page'
 
 const ROOT_ID = 'sisense-hackathon-2023'
 function getOrCreateRootEl() {
@@ -17,15 +18,19 @@ function getOrCreateRootEl() {
 const root = ReactDOM.createRoot(document.createElement('div')/* getOrCreateRootEl() */)
 root.render(
     <React.StrictMode>
-        {createPortal(<Hypercard />, getOrCreateRootEl())}
+        <Page />
     </React.StrictMode>
 )
 
-console.log({chrome})
+const mo = new MutationObserver((mutations) => {
 
-function Hypercard() {
-    return <div style={{position:"fixed", zIndex:9999, minHeight:"100px", minWidth: "100px", right: 0, bottom: 0}}>Hypercard</div>
-}
+})
+
+// console.log({chrome})
+
+// function Hypercard() {
+//     return <div style={{position:"fixed", zIndex:9999, minHeight:"100px", minWidth: "100px", right: 0, bottom: 0}}>Hypercard</div>
+// }
 // import browser from 'webextension-polyfill'
 // browser.runtime.
 

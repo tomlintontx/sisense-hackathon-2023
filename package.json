@@ -21,8 +21,8 @@
     "@mui/material": "^5.14.10",
     "@mui/x-data-grid": "^6.14.0",
     "@sisense/sdk-data": "^0.10.0",
-    "@sisense/sdk-rest-client": "^0.10.0",
     "@sisense/sdk-query-client": "^0.10.0",
+    "@sisense/sdk-rest-client": "^0.10.0",
     "@sisense/sdk-ui": "^0.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

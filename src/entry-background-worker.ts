@@ -1,10 +1,9 @@
 import { BearerAuthenticator, HttpClient } from "@sisense/sdk-rest-client";
 import { DimensionalQueryClient, type QueryDescription } from "@sisense/sdk-query-client";
 
-import * as DM from '../nfl_data'
+import * as DM from './nfl_data'
 
 async function main() {
-
     const url = import.meta.env.VITE_SISENSE_URL;
     const token = import.meta.env.VITE_SISENSE_TOKEN;
 
