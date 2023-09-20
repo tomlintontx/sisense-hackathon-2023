@@ -120,9 +120,10 @@ function PlayerCard({  player   }: PlayerCardProps) {
   formattedData.sumrushingYards = intlFmt.format(Number(formattedData.sumrushingYards))
   formattedData.sumsoloTackles = intlFmt.format(Number(formattedData.sumsoloTackes))
   formattedData.sumreceivingYards = intlFmt.format(Number(formattedData.sumreceivingYards))
-  formattedData.sumpuntsInside10Pct = formattedData.sumpuntsInside10Pct + "%"
-  formattedData.sumfieldGoalPct = formattedData.sumfieldGoalPct + "%"
-
+  formattedData.sumfieldGoalPct = formattedData['sumfieldGoalPct']?.substring(0,4) + "%"
+  formattedData.puntsInside10Pct = formattedData['puntsInside10Pct']?.substring(0,4) + "%"
+  
+  
   return (
     <Box className="cardContainer">
       <Card
@@ -161,7 +162,6 @@ function PlayerCard({  player   }: PlayerCardProps) {
                 zIndex: 1
               }}
             />
-
           </Box>
 
           <Table size="small">
@@ -169,7 +169,7 @@ function PlayerCard({  player   }: PlayerCardProps) {
               {positionToStats[formattedData.position_abbr!].map((stat) => (
                 <TableRow key={stat}>
                   <TableCell>{capitalizeWords(stat)}</TableCell>
-                  <TableCell>{formattedData[`sum${stat.replace(' ', '')}`]}</TableCell>
+                  <TableCell>{formattedData[`sum${stat.replace(/ /g, '')}`]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       url= {sisenseUrl}
       token= {sisenseApiKey}
     >
-      <PlayerCard player='Patrick Mahomes' />
+      <PlayerCard player='Rodrigo Blankenship' />
     </SisenseContextProvider>  
   </React.StrictMode>,
 )
