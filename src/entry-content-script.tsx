@@ -95,8 +95,13 @@ function unMount() {
 }
 
 document.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Escape' && card) {
+    if (ev.key !== 'Escape') return;
+
+    if (card) {
         unMount();
+    } else {
+        console.log("refreshing matches")
+        highlightMatches(document.body)
     }
 })
 
