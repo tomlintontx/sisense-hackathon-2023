@@ -44,6 +44,22 @@ interface PlayerCardProps {
   player: QueryData;
 }
 
+function capitalizeWords(input: string): string {
+  return input.replace(/\b(\w)/g, char => char.toUpperCase());
+}
+
+
+const positionToStats: Record<string, string[]> = {
+  'QB': ['passing Yards', 'passing Touchdowns', 'rushing Yards', 'QBRating'],
+  'RB': ['rushing Yards', 'rushing Touchdowns', 'receiving Yards', 'receiving Touchdowns'],
+  'WR': ['receiving Yards', 'receiving Touchdowns', 'receptions'],
+  'TE': ['receiving Yards', 'receiving Touchdowns', 'receptions'],
+  'PK': ['field Goals Made', 'field Goal Pct', 'field Goals Made 50'],
+  'P': ['punts', 'punts Inside 10 Pct'],
+  'LB': ['solo Tackles', 'sacks', 'interceptions', 'fumbled Forced'],
+  'CB': ['solo Tackles', 'sacks', 'interceptions', 'fumbled Forced']
+};
+
 const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const { columns, rows } = player;
@@ -55,8 +71,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
     }, {});
   });
 
-  formattedData[0].sumpassingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumpassingYards)
+  formattedData[0].sumpassingYards = new Intl.NumberFormat('en-us',{}).format(formattedData[0].sumpassingYards)
   formattedData[0].sumrushingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumrushingYards)
+  formattedData[0].sumsoloTackles = new Intl.NumberFormat('en-us').format(formattedData[0].sumsoloTackes)
+  formattedData[0].sumreceivingYards = new Intl.NumberFormat('en-us').format(formattedData[0].sumreceivingYards)
+  formattedData[0].sumpuntsInside10Pct = formattedData[0].sumpuntsInside10Pct + "%"
+  formattedData[0].sumfieldGoalPct = formattedData[0].sumfieldGoalPct + "%"
 
   return (
     <Box className="cardContainer">
@@ -101,18 +121,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
 
           <Table size="small">
             <TableBody>
-              <TableRow>
-                <TableCell>Passing Yards</TableCell>
-                <TableCell>{formattedData[0].sumpassingYards}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Passing TDs</TableCell>
-                <TableCell>{formattedData[0].sumpassingTouchdowns}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Rushing Yards</TableCell>
-                <TableCell>{formattedData[0].sumrushingYards}</TableCell>
-              </TableRow>
+              {positionToStats[formattedData[0].position_abbr].map((stat) => (
+                <TableRow key={stat}>
+                  <TableCell>{capitalizeWords(stat)}</TableCell>
+                  <TableCell>{formattedData[0][`sum${stat.replace(' ', '')}`]}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </CardContent>
