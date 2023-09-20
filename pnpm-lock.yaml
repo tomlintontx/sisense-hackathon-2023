@@ -5,6 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@emotion/cache':
+    specifier: ^11.11.0
+    version: 11.11.0
+  '@emotion/css':
+    specifier: ^11.11.2
+    version: 11.11.2
+  '@emotion/react':
+    specifier: ^11.11.1
+    version: 11.11.1(@types/react@18.2.22)(react@18.2.0)
   '@mui/icons-material':
     specifier: ^5.14.9
     version: 5.14.9(@mui/material@5.14.10)(@types/react@18.2.22)(react@18.2.0)

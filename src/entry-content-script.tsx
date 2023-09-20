@@ -1,13 +1,14 @@
-// import './content/render.tsx'
-
 import ReactDOM from "react-dom/client";
+import { StrictMode , useEffect, useState } from "react";
+import { SisenseContextProvider } from "@sisense/sdk-ui";
+import { CacheProvider } from '@emotion/react'
+import createCache from '@emotion/cache'
+
+import PlayerCard from "./components/PlayerCard/PlayerCard";
 
 import { isElementNode, isTextNode } from "./util/dom";
-import { useEffect, useState } from "react";
-import { SisenseContextProvider } from "@sisense/sdk-ui";
-import { StrictMode } from "react";
-import PlayerCard from "./components/PlayerCard/PlayerCard";
 import { type TrieMatch } from "./util/trie";
+
 
 let card: HTMLElement | undefined;
 
@@ -126,7 +127,7 @@ function handleMouseOver(event: MouseEvent) {
     const cardTop = clamp(centerY - CARD_HEIGHT / 2, 0, viewHeight - CARD_HEIGHT);
     const cardLeft = clamp(centerX + offsetX - CARD_WIDTH / 2, 0, viewWidth - CARD_WIDTH);
 
-    console.log({ centerX, centerY, viewWidth, viewHeight, offsetX, cardTop, cardLeft })
+    // console.log({ centerX, centerY, viewWidth, viewHeight, offsetX, cardTop, cardLeft })
 
     if (!card) card = document.createElement('div');
     card.style.position = 'fixed';
@@ -138,14 +139,20 @@ function handleMouseOver(event: MouseEvent) {
     card.style.zIndex = '9999';
     document.body.appendChild(card);
 
-    ReactDOM.createRoot(card).render(
+    const shadowRoot = card.attachShadow({ mode: 'closed' });
+
+    const reactRoot = document.createElement('div');
+    shadowRoot.appendChild(reactRoot);
+
+    const cache = createCache({ key: 'hackathon', container: shadowRoot, prepend: true})
+
+    ReactDOM.createRoot(/* card.attachShadow({mode: 'closed'}) */ reactRoot).render(
         <StrictMode>
-            <SisenseContextProvider
-            url= {sisenseUrl}
-            token= {sisenseApiKey}
-            >
-            <PlayerCard player={name} />
-            </SisenseContextProvider>  
+            <CacheProvider value={cache}>
+                <SisenseContextProvider url={sisenseUrl} token={sisenseApiKey}>
+                    <PlayerCard player={name} />
+                </SisenseContextProvider>  
+            </CacheProvider>
         </StrictMode>
     )
 }

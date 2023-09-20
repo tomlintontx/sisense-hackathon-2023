@@ -1,3 +1,4 @@
+
 import React, { useDebugValue, useEffect, useMemo, useState } from 'react';
 import {
   Card,
@@ -10,10 +11,62 @@ import {
   Avatar,
   Box
 } from '@mui/material';
-import './PlayerCard.css'
 import { Chart, ThemeProvider, useExecuteQuery } from '@sisense/sdk-ui';
 import * as DM from '../../nfl_data.ts'
 import { measures, filters, Measure } from '@sisense/sdk-data';
+
+// import './PlayerCard.css'
+import {css} from '@emotion/react'
+
+const cardContainer = css`
+
+perspective: 1000px;
+height: 350px;
+width: 600px;
+
+.card {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card.flipped {
+  transform: rotateX(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cardFront {
+  transform: rotateX(0deg);
+  visibility: visible;
+}
+
+.cardBack {
+  transform: rotateX(180deg);
+  visibility: hidden;
+  /* This will hide the card back by default */
+}
+
+.card.flipped .cardFront {
+  visibility: hidden;
+}
+
+.card.flipped .cardBack {
+  visibility: visible;
+}
+
+`
+
 
 // Define your types
 interface Stat {
@@ -169,7 +222,7 @@ function PlayerCard({ player }: PlayerCardProps) {
   console.log(currentMeasure)
 
   return (
-    <Box className="cardContainer">
+    <Box css={cardContainer}>
       <Card
         className={`card ${isFlipped ? 'flipped' : ''}`}
         onClick={() => setIsFlipped(!isFlipped)}

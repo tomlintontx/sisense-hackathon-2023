@@ -7,7 +7,12 @@ export default defineConfig(({ command, mode }) => {
   console.log({ command, mode })
   return {
     plugins: [
-      react(),
+      react({
+        jsxImportSource: "@emotion/react",
+        babel: {
+          plugins: ["@emotion/babel-plugin"],
+        },
+      }),
       /* (command === 'build') &&  */
       webExtension({
         manifest: {
@@ -26,7 +31,7 @@ export default defineConfig(({ command, mode }) => {
               js: ['src/entry-content-script.tsx'],
               css: [
                 'src/content/style.css',
-                'src/components/PlayerCard/PlayerCard.css',
+                // 'src/components/PlayerCard/PlayerCard.css',
               ],
             }
           ],
