@@ -11,7 +11,7 @@ import {
   Box
 } from '@mui/material';
 import './PlayerCard.css'
-import { Chart, useExecuteQuery } from '@sisense/sdk-ui';
+import { Chart, ThemeProvider, useExecuteQuery } from '@sisense/sdk-ui';
 import * as DM from '../../nfl_data.ts'
 import { measures, filters } from '@sisense/sdk-data';
 
@@ -130,11 +130,18 @@ function PlayerCard({  player   }: PlayerCardProps) {
       <Card
         className={`card ${isFlipped ? 'flipped' : ''}`}
         onClick={() => setIsFlipped(!isFlipped)}
+        sx={{
+          boxShadow: 4
+        }}
         /* style={{ height: '100vh' }} */
       >
         {/* Front of the Card */}
-        <CardContent className="cardFront">
-          <Box position="relative" height={60} marginBottom={2}
+        <CardContent className="cardFront"
+        sx={{
+          padding: 0
+        }}
+        >
+          <Box position="relative" height={70} marginBottom={2} paddingTop={1}
             style={{ background: `linear-gradient(to right, ${"#" + formattedData.color}, ${"#" + formattedData.alternateColor})` }}>
 
             {/* Left side content */}
@@ -155,8 +162,8 @@ function PlayerCard({  player   }: PlayerCardProps) {
             {/* Floating secondary avatar */}
             <Avatar src={formattedData.logo_url} alt="Secondary Avatar"
               style={{
-                width: 80,
-                height: 80,
+                width: 100,
+                height: 100,
                 position: 'absolute',
                 top: -10,
                 right: 10,
@@ -193,28 +200,36 @@ function PlayerCard({  player   }: PlayerCardProps) {
             <Typography variant="h5" component="div" color="black" style={{ marginBottom: '16px' }}>
               Career Stats Active QBs
             </Typography>
-            <Chart
-              dataSet={DM.DataSource}
-              chartType={'bar'}
-              dataOptions={{
-                category: [DM.players.fullName],
-                value: [measures.sum(DM.PlayerStats.passingTouchdowns, 'Passing TDs')],
-                breakBy: [],
-              }}
-              filters={[
-                filters.equals(DM.players.position_abbr, 'QB'),
-                filters.topRanking(DM.players.fullName, measures.sum(DM.PlayerStats.passingTouchdowns), 5)
-              ]}
-              styleOptions={{
-                legend: {
-                  enabled: true,
-                  position: 'bottom',
-                },
-              }}
-              onDataPointClick={(point, nativeEvent) => {
-                console.log('clicked', point, nativeEvent);
-              }}
-            />
+            <ThemeProvider
+            theme={{
+              palette: {
+                variantColors: ['#' + formattedData.color]
+              }
+            }}
+            >
+              <Chart
+                dataSet={DM.DataSource}
+                chartType={'bar'}
+                dataOptions={{
+                  category: [DM.players.fullName],
+                  value: [measures.sum(DM.PlayerStats.passingTouchdowns, 'Passing TDs')],
+                  breakBy: [],
+                }}
+                filters={[
+                  filters.equals(DM.players.position_abbr, 'QB'),
+                  filters.topRanking(DM.players.fullName, measures.sum(DM.PlayerStats.passingTouchdowns), 5)
+                ]}
+                styleOptions={{
+                  legend: {
+                    enabled: true,
+                    position: 'bottom',
+                  },
+                }}
+                onDataPointClick={(point, nativeEvent) => {
+                  console.log('clicked', point, nativeEvent);
+                }}
+              />
+            </ThemeProvider>
           </Box>
 
         </CardContent>

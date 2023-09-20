@@ -70,7 +70,7 @@ async function highlightMatches(root: Node) {
 }
 
 const CARD_HEIGHT = 350;
-const CARD_WIDTH = 500;
+const CARD_WIDTH = 600;
 
 function clamp(value: number, min: number, max: number): number {
     return Math.max(min, Math.min(max, value));
